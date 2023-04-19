@@ -124,26 +124,12 @@ def trainer(dataset):
         re_loss = F.binary_cross_entropy(A_pred.view(-1), adj_label.view(-1))
 
         loss = 1000 * kl_loss + re_loss
-
+        
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
     model.load_state_dict(torch.load("./pretrain/predaegc1116.pkl", map_location='cpu'))
-    _, z, _, _ = model.gat(data, adj, M)
-    z = z.detach().data.cpu().numpy()
-    model2 = cluster.KMeans(n_clusters=args.n_clusters, max_iter=1000)
-    model2.fit(z)
-    predicted = model2.predict(z)
-    data_TSNE = TSNE(n_components=2).fit_transform(z[:, 0:12]) 
-    x1_axis = data_TSNE[:, 0]
-    x2_axis = data_TSNE[:, 1]
-    plt.xticks([])
-    plt.yticks([])
-    plt.scatter(x1_axis, x2_axis, 10, c=predicted)
-    # plt.title('Final result')
-    plt.savefig('Cora.pdf')
-    plt.show()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(  
