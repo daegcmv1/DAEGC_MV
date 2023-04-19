@@ -98,26 +98,6 @@ def pretrain(dataset):
                 model.state_dict(), f"./pretrain/predaegc_{args.name}_1115.pkl"
             )
 
-    
-
-        '''if epoch % 100 ==0:
-            model.load_state_dict(torch.load(f"./pretrain/predaegc_{args.name}_1115.pkl", map_location='cpu'))
-            _, z, _, _ = model(x, adj, M)
-            z = z.detach().data.cpu().numpy()
-            model2 = cluster.KMeans(n_clusters =args.n_clusters, max_iter = 1000)
-            model2.fit(z)
-            predicted = model2.predict(z)
-            data_TSNE = TSNE(n_components=2).fit_transform(z[:,0:12])  
-            x1_axis = data_TSNE[:, 0]
-            x2_axis = data_TSNE[:, 1]
-            plt.xticks([])
-            plt.yticks([])
-            #plt.title('Epoch: {}'.format(epoch))
-            plt.scatter(x1_axis, x2_axis, 10, c=predicted)
-          
-            plt.savefig('pre_Cora4{}.pdf'.format(epoch))
-            plt.show()'''
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
